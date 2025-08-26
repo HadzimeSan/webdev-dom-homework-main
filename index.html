@@ -71,18 +71,6 @@
     const commentInputElement = document.querySelector(".add-form-text");
     const addButtonElement = document.querySelector(".add-form-button");
 
-    let currentNameValue = "";
-    let currentCommentValue = "";
-
-    // Обработчики изменения полей ввода
-    nameInputElement.addEventListener("input", (event) => {
-      currentNameValue = event.target.value;
-    });
-
-    commentInputElement.addEventListener("input", (event) => {
-      currentCommentValue = event.target.value;
-    });
-
     // Форматирование текущей даты и времени: dd.mm.yy hh:mm
     const formatTwoDigits = (number) => String(number).padStart(2, "0");
     const getCurrentDateTimeString = () => {
@@ -97,20 +85,23 @@
 
     // Обработчик клика по кнопке "Написать"
     addButtonElement.addEventListener("click", () => {
-      // Простая проверка на пустые значения
-      if (!currentNameValue.trim() || !currentCommentValue.trim()) {
+      const nameValue = nameInputElement.value.trim();
+      const commentValue = commentInputElement.value.trim();
+      // Проверка на пустые значения с сообщением пользователю
+      if (!nameValue || !commentValue) {
+        alert("Пожалуйста, заполните поля имени и комментария.");
         return;
       }
 
       const newCommentHtml = `
         <li class="comment">
           <div class="comment-header">
-            <div>${currentNameValue}</div>
+            <div>${nameValue}</div>
             <div>${getCurrentDateTimeString()}</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
-              ${currentCommentValue}
+              ${commentValue}
             </div>
           </div>
           <div class="comment-footer">
@@ -127,8 +118,6 @@
       // Сбрасываем поля ввода
       nameInputElement.value = "";
       commentInputElement.value = "";
-      currentNameValue = "";
-      currentCommentValue = "";
     });
   </script>
 </html>
