@@ -101,19 +101,29 @@
       return `${day}.${month}.${year} ${hours}:${minutes}`;
     };
 
+    // Экранирование HTML, чтобы ввод отображался как текст
+    const escapeHtml = (unsafeText) => {
+      return String(unsafeText)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    };
+
     // Функция рендеринга комментариев
     const renderComments = () => {
       const commentsHtml = comments.map((comment, index) => {
         const likeButtonClass = comment.isLiked ? "like-button -active-like" : "like-button";
         return `
-          <li class="comment">
+          <li class="comment" data-index="${index}">
             <div class="comment-header">
-              <div>${comment.name}</div>
+              <div>${escapeHtml(comment.name)}</div>
               <div>${comment.date}</div>
             </div>
             <div class="comment-body">
               <div class="comment-text">
-                ${comment.text}
+                ${escapeHtml(comment.text)}
               </div>
             </div>
             <div class="comment-footer">
@@ -181,6 +191,22 @@
 
     // Добавляем обработчик клика на лайки
     commentsListElement.addEventListener("click", handleLikeClick);
+
+    // Цитирование комментария по клику (кроме кликов по лайку)
+    commentsListElement.addEventListener("click", (event) => {
+      if (event.target.closest('.like-button')) {
+        return; // Не цитируем, если клик по лайку
+      }
+      const commentElement = event.target.closest('.comment');
+      if (!commentElement) return;
+      const index = parseInt(commentElement.dataset.index);
+      if (Number.isNaN(index)) return;
+      const quoted = comments[index];
+      // Префикс "> " для цитаты, затем пустая строка для продолжения ответа
+      commentInputElement.value = `> ${quoted.text}\n\n`;
+      nameInputElement.value = quoted.name;
+      commentInputElement.focus();
+    });
 
     // Инициализируем рендеринг комментариев при загрузке страницы
     renderComments();
