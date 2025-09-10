@@ -192,21 +192,20 @@
     // Добавляем обработчик клика на лайки
     commentsListElement.addEventListener("click", handleLikeClick);
 
-    // Цитирование комментария по клику (кроме кликов по лайку)
-    commentsListElement.addEventListener("click", (event) => {
-      if (event.target.closest('.like-button')) {
-        return; // Не цитируем, если клик по лайку
-      }
-      const commentElement = event.target.closest('.comment');
-      if (!commentElement) return;
-      const index = parseInt(commentElement.dataset.index);
-      if (Number.isNaN(index)) return;
-      const quoted = comments[index];
-      // Префикс "> " для цитаты, затем пустая строка для продолжения ответа
-      commentInputElement.value = `> ${quoted.text}\n\n`;
-      nameInputElement.value = quoted.name;
-      commentInputElement.focus();
-    });
+     // Цитирование комментария по клику (кроме кликов по лайку)
+     commentsListElement.addEventListener("click", (event) => {
+       if (event.target.closest('.like-button')) {
+         return; // Не цитируем, если клик по лайку
+       }
+       const commentElement = event.target.closest('.comment');
+       if (!commentElement) return;
+       const index = parseInt(commentElement.dataset.index);
+       if (Number.isNaN(index)) return;
+       const quoted = comments[index];
+       // Префикс "> " для цитаты, затем пустая строка для продолжения ответа
+       commentInputElement.value = `> ${quoted.text}\n\n`;
+       commentInputElement.focus();
+     });
 
     // Инициализируем рендеринг комментариев при загрузке страницы
     renderComments();
