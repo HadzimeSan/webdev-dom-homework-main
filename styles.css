@@ -104,10 +104,11 @@ body {
     font-family: Helvetica;
     border-radius: 8px;
     border: none;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .add-form-name {
-    width: 300px;
     padding: 11px 22px;
   }
 
@@ -133,5 +134,64 @@ body {
   }
 
   .add-form-button:hover {
+    opacity: 0.9;
+  }
+
+  /* Auth styles */
+  .auth {
+    margin-top: 16px;
+    width: 596px;
+  }
+
+  .auth-card {
+    box-sizing: border-box;
+    background: radial-gradient(
+      75.42% 75.42% at 50% 42.37%,
+      rgba(53, 53, 53, 0) 22.92%,
+      #7334ea 100%
+    );
+    filter: drop-shadow(0px 20px 67px rgba(0, 0, 0, 0.08));
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  .auth-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .auth-forms {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .auth-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .auth-input {
+    font-size: 16px;
+    font-family: Helvetica;
+    border-radius: 8px;
+    border: none;
+    padding: 11px 16px;
+    background: #fff;
+    color: #111;
+  }
+
+  .auth-button {
+    font-size: 16px;
+    padding: 10px 16px;
+    background-color: #bcec30;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  .auth-button:hover {
     opacity: 0.9;
   }
