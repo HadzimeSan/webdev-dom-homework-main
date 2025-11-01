@@ -8,206 +8,60 @@
 
   <body>
     <div class="container">
-      <ul class="comments">
-        <li class="comment">
-          <div class="comment-header">
-            <div>Глеб Фокин</div>
-            <div>12.02.22 12:18</div>
+      <div class="logout-container">
+        <button type="button" class="logout-button">Выйти</button>
+      </div>
+      <!-- Основной view: комментарии -->
+      <div class="comments-view">
+        <ul class="comments"></ul>
+        <div class="auth-link-container">
+          <a href="#" class="auth-link">Авторизуйтесь</a>
+        </div>
+        <div class="add-form">
+          <input
+            type="text"
+            class="add-form-name"
+            placeholder="Введите ваше имя"
+          />
+          <textarea
+            type="textarea"
+            class="add-form-text"
+            placeholder="Введите ваш коментарий"
+            rows="4"
+          ></textarea>
+          <div class="add-form-row">
+            <button class="add-form-button">Написать</button>
           </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Это будет первый комментарий на этой странице
-            </div>
+        </div>
+      </div>
+
+      <!-- View авторизации -->
+      <div class="auth-view">
+        <div class="auth-card">
+          <div class="auth-title">Вход</div>
+          <div class="auth-login-form">
+            <input class="auth-input auth-login-login" placeholder="Логин" />
+            <input class="auth-input auth-login-password" placeholder="Пароль" type="password" />
+            <button type="button" class="auth-button auth-login-button">Войти</button>
+            <button type="button" class="auth-switch-button auth-to-register-button">Зарегистрироваться</button>
           </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">3</span>
-              <button class="like-button"></button>
-            </div>
+        </div>
+      </div>
+
+      <!-- View регистрации -->
+      <div class="register-view">
+        <div class="auth-card">
+          <div class="auth-title">Регистрация</div>
+          <div class="auth-register-form">
+            <input class="auth-input auth-register-name" placeholder="Имя" />
+            <input class="auth-input auth-register-login" placeholder="Логин" />
+            <input class="auth-input auth-register-password" placeholder="Пароль" type="password" />
+            <button type="button" class="auth-button auth-register-button">Зарегистрироваться</button>
+            <button type="button" class="auth-switch-button auth-to-login-button">Войти</button>
           </div>
-        </li>
-        <li class="comment">
-          <div class="comment-header">
-            <div>Варвара Н.</div>
-            <div>13.02.22 19:22</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Мне нравится как оформлена эта страница! ❤
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">75</span>
-              <button class="like-button -active-like"></button>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <div class="add-form">
-        <input
-          type="text"
-          class="add-form-name"
-          placeholder="Введите ваше имя"
-        />
-        <textarea
-          type="textarea"
-          class="add-form-text"
-          placeholder="Введите ваш коментарий"
-          rows="4"
-        ></textarea>
-        <div class="add-form-row">
-          <button class="add-form-button">Написать</button>
         </div>
       </div>
     </div>
   </body>
-
-  <script>
-    "use strict";
-    // Код писать здесь
-    const commentsListElement = document.querySelector(".comments");
-    const nameInputElement = document.querySelector(".add-form-name");
-    const commentInputElement = document.querySelector(".add-form-text");
-    const addButtonElement = document.querySelector(".add-form-button");
-
-    // Массив комментариев с данными
-    let comments = [
-      {
-        name: "Глеб Фокин",
-        date: "12.02.22 12:18",
-        text: "Это будет первый комментарий на этой странице",
-        likes: 3,
-        isLiked: false
-      },
-      {
-        name: "Варвара Н.",
-        date: "13.02.22 19:22",
-        text: "Мне нравится как оформлена эта страница! ❤",
-        likes: 75,
-        isLiked: true
-      }
-    ];
-
-    // Форматирование текущей даты и времени: dd.mm.yy hh:mm
-    const formatTwoDigits = (number) => String(number).padStart(2, "0");
-    const getCurrentDateTimeString = () => {
-      const now = new Date();
-      const day = formatTwoDigits(now.getDate());
-      const month = formatTwoDigits(now.getMonth() + 1);
-      const year = String(now.getFullYear()).slice(-2);
-      const hours = formatTwoDigits(now.getHours());
-      const minutes = formatTwoDigits(now.getMinutes());
-      return `${day}.${month}.${year} ${hours}:${minutes}`;
-    };
-
-    // Экранирование HTML, чтобы ввод отображался как текст
-    const escapeHtml = (unsafeText) => {
-      return String(unsafeText)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    };
-
-    // Функция рендеринга комментариев
-    const renderComments = () => {
-      const commentsHtml = comments.map((comment, index) => {
-        const likeButtonClass = comment.isLiked ? "like-button -active-like" : "like-button";
-        return `
-          <li class="comment" data-index="${index}">
-            <div class="comment-header">
-              <div>${escapeHtml(comment.name)}</div>
-              <div>${comment.date}</div>
-            </div>
-            <div class="comment-body">
-              <div class="comment-text">
-                ${escapeHtml(comment.text)}
-              </div>
-            </div>
-            <div class="comment-footer">
-              <div class="likes">
-                <span class="likes-counter">${comment.likes}</span>
-                <button class="${likeButtonClass}" data-index="${index}"></button>
-              </div>
-            </div>
-          </li>`;
-      }).join('');
-      
-      commentsListElement.innerHTML = commentsHtml;
-    };
-
-    // Обработчик клика по лайку
-    const handleLikeClick = (event) => {
-      if (event.target.classList.contains('like-button')) {
-        const commentIndex = parseInt(event.target.dataset.index);
-        const comment = comments[commentIndex];
-        
-        if (comment.isLiked) {
-          // Убираем лайк
-          comment.likes--;
-          comment.isLiked = false;
-        } else {
-          // Ставим лайк
-          comment.likes++;
-          comment.isLiked = true;
-        }
-        
-        // Перерендериваем все комментарии
-        renderComments();
-      }
-    };
-
-    // Обработчик клика по кнопке "Написать"
-    addButtonElement.addEventListener("click", () => {
-      const nameValue = nameInputElement.value.trim();
-      const commentValue = commentInputElement.value.trim();
-      
-      // Проверка на пустые значения с сообщением пользователю
-      if (!nameValue || !commentValue) {
-        alert("Пожалуйста, заполните поля имени и комментария.");
-        return;
-      }
-
-      // Добавляем новый комментарий в массив
-      const newComment = {
-        name: nameValue,
-        date: getCurrentDateTimeString(),
-        text: commentValue,
-        likes: 0,
-        isLiked: false
-      };
-      
-      comments.push(newComment);
-
-      // Перерендериваем все комментарии
-      renderComments();
-
-      // Сбрасываем поля ввода
-      nameInputElement.value = "";
-      commentInputElement.value = "";
-    });
-
-    // Добавляем обработчик клика на лайки
-    commentsListElement.addEventListener("click", handleLikeClick);
-
-     // Цитирование комментария по клику (кроме кликов по лайку)
-     commentsListElement.addEventListener("click", (event) => {
-       if (event.target.closest('.like-button')) {
-         return; // Не цитируем, если клик по лайку
-       }
-       const commentElement = event.target.closest('.comment');
-       if (!commentElement) return;
-       const index = parseInt(commentElement.dataset.index);
-       if (Number.isNaN(index)) return;
-       const quoted = comments[index];
-       // Префикс "> " для цитаты, затем пустая строка для продолжения ответа
-       commentInputElement.value = `> ${quoted.text}\n\n`;
-       commentInputElement.focus();
-     });
-
-    // Инициализируем рендеринг комментариев при загрузке страницы
-    renderComments();
-  </script>
+  <script type="module" src="src/main.js"></script>
 </html>
